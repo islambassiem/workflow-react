@@ -6,9 +6,9 @@ import './i18n';
 import {SetupProvider} from "./Context/SetupProvider.jsx";
 
 createRoot(document.getElementById('root')).render(
-    <StrictMode>
+    // <StrictMode>
         <SetupProvider>
             <App/>
         </SetupProvider>
-    </StrictMode>
+    // </StrictMode>
 )

@@ -1,17 +1,18 @@
-import {useStateContext} from "./Context/SetupProvider.jsx";
 import {BrowserRouter, Route, Routes} from "react-router";
+import Login from "./Pages/Login.jsx";
 
 function App() {
-    const {theme, handleTheme, dir, handleDir, locale, handleLocale, t} = useStateContext();
+
+    console.log('app rendered');
 
     return (
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<div>App</div>}/>
+                    <Route path="/" element={<Login/>}/>
+                    {/*<Route path="/login" element={<Login/>}/>*/}
                 </Routes>
             </BrowserRouter>
-
         </>
 
     )
