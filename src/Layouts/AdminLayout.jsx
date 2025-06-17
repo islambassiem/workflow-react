@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useUserContext } from "@/Context/UserContext.jsx";
-import { useNavigate } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import axios from "axios";
 import { useSetupContext } from "../Context/SetupProvider";
 import Tooltip from "@mui/material/Tooltip";
@@ -141,6 +141,7 @@ export default function AdminLayout({ children }) {
 
           {/* Page content passed as children */}
           {children}
+          <Outlet/>
         </main>
       </div>
     </div>
