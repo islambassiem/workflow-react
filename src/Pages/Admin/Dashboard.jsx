@@ -1,12 +1,11 @@
-import Layout from "./Layout";
+
 import {useUserContext} from "../../Context/UserContext.jsx";
+import AdminLayout from "../../Layouts/AdminLayout.jsx";
 export default function Dashboard(){
     const {user} = useUserContext();
     return (
         <>
-        <Layout>
-            <h1>{user.name}</h1>
-        </Layout>
+            <h1>{user.data.name}</h1>
         </>
     );
 }
