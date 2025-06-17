@@ -1,0 +1,99 @@
+/* ================ Alexandria =======================*/
+@font-face {
+    font-family: 'Alexandria';
+    src: url('/src/fonts/Alexandria/static/Alexandria-Thin.ttf');
+    font-weight: 100;
+}
+
+@font-face {
+    font-family: 'Alexandria';
+    src: url('/src/fonts/Alexandria/static/Alexandria-ExtraLight.ttf');
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: 'Alexandria';
+    src: url('/src/fonts/Alexandria/static/Alexandria-Light.ttf');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'Alexandria';
+    src: url('/src/fonts/Alexandria/static/Alexandria-Regular.ttf');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Alexandria';
+    src: url('/src/fonts/Alexandria/static/Alexandria-Medium.ttf');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Alexandria';
+    src: url('/src/fonts/Alexandria/static/Alexandria-SemiBold.ttf');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'Alexandria';
+    src: url('/src/fonts/Alexandria/static/Alexandria-Bold.ttf');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Alexandria';
+    src: url('/src/fonts/Alexandria/static/Alexandria-ExtraBold.ttf');
+    font-weight: 800;
+}
+
+@font-face {
+    font-family: 'Alexandria';
+    src: url('/src/fonts/Alexandria/static/Alexandria-Black.ttf');
+    font-weight: 900;
+}
+
+
+/* ================ Fustat =======================*/
+
+@font-face {
+    font-family: 'Fustat';
+    src: url('/src/fonts/Fustat/static/Fustat-ExtraLight.ttf');
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: 'Fustat';
+    src: url('/src/fonts/Fustat/static/Fustat-Light.ttf');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'Fustat';
+    src: url('/src/fonts/Fustat/static/Fustat-Regular.ttf');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Fustat';
+    src: url('/src/fonts/Fustat/static/Fustat-Medium.ttf');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Fustat';
+    src: url('/src/fonts/Fustat/static/Fustat-SemiBold.ttf');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'Fustat';
+    src: url('/src/fonts/Fustat/static/Fustat-Bold.ttf');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Fustat';
+    src: url('/src/fonts/Fustat/static/Fustat-ExtraBold.ttf');
+    font-weight: 800;
+}

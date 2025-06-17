@@ -1,21 +1,19 @@
-import {createContext, useContext, useState, useEffect} from "react";
+import {createContext, useContext, useEffect} from "react";
 import {useTranslation} from 'react-i18next';
+import useLocalStorage from "@/hooks/useLocalStorage.js";
 
 
 const SetupContext = createContext(null);
 
 export const SetupProvider = ({children}) => {
     const { t, i18n } = useTranslation();
-    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
-    const [dir, setDir] = useState(localStorage.getItem('dir') || 'ltr');
-    const [locale, setLocale] = useState(localStorage.getItem('locale') || 'en');
+    const [theme, setTheme] = useLocalStorage('theme', 'light');
+    const [dir, setDir] = useLocalStorage('dir', 'ltr');
+    const [locale, setLocale] = useLocalStorage('locale', 'en');
 
     const root = document.getElementById('root');
 
     useEffect(() => {
-        if (!localStorage.getItem('theme')) {
-            localStorage.setItem('theme', 'light');
-        }
         if (theme === 'dark') {
             root.classList.add('dark', 'dark:bg-slate-900', 'dark:text-white');
         } else {
@@ -24,23 +22,19 @@ export const SetupProvider = ({children}) => {
     }, [theme]);
 
     useEffect(() => {
-        if (!localStorage.getItem('dir')) {
-            localStorage.setItem('dir', 'ltr');
-        }
         root.setAttribute('dir', dir);
         if (dir === 'rtl') {
-            root.classList.add('font-Alexandria');
-            root.classList.add('font-medium');
+            root.classList.remove('font-serif');
+            root.classList.add('font-fustat');
+            root.classList.add('font-bold');
         } else {
-            root.classList.remove('font-Alexandria');
-            root.classList.remove('font-medium');
+            root.classList.remove('font-fustat');
+            root.classList.remove('font-bold');
+            root.classList.add('font-serif');
         }
-    }, [dir, root]);
+    }, [dir]);
 
     useEffect(() => {
-        if (!localStorage.getItem('locale')) {
-            localStorage.setItem('locale', 'en');
-        }
         i18n.changeLanguage(locale);
     }, [i18n, locale]);
 
@@ -76,4 +70,4 @@ export const SetupProvider = ({children}) => {
 
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const useStateContext = () => useContext(SetupContext);
+export const useSetupContext = () => useContext(SetupContext);
