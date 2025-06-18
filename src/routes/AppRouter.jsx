@@ -10,9 +10,7 @@ const AppRouter = () => {
 
     return (
         <>
-            {!token && <PublicRoutes/>}
-
-            {!isAdmin ? <UserRoutes/> : <AdminRoutes/> }
+            {token ? isAdmin ? <AdminRoutes/> : <UserRoutes/> : <PublicRoutes/>}
         </>
     );
 };
