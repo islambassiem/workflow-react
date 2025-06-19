@@ -6,17 +6,13 @@ import {
   Home,
   BarChart3,
   Users,
-  Settings,
-  FileText,
-  Bell,
-  Globe,
   Moon,
   Sun,
   LogOut,
   ChevronRight,
   SquareUserRound,
 } from "lucide-react";
-import { Outlet } from "react-router";
+import { Link, Outlet } from "react-router";
 import useLogout from "@/hooks/useLogout.js";
 
 const Dashboard = ({ children }) => {
@@ -28,11 +24,9 @@ const Dashboard = ({ children }) => {
     useSetupContext();
 
   const navigationItems = [
-    { name: "Dashboard", icon: Home, href: "#" },
-    { name: "Analytics", icon: BarChart3, href: "#" },
-    { name: "Users", icon: Users, href: "#" },
-    { name: "Reports", icon: FileText, href: "#" },
-    { name: "Settings", icon: Settings, href: "#" },
+    { name: "Dashboard", icon: Home, href: "/dashboard" },
+    { name: "Workflows", icon: BarChart3, href: "/workflow" },
+    { name: "Users", icon: Users, href: "/users" },
   ];
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
@@ -102,48 +96,49 @@ const Dashboard = ({ children }) => {
           {/* Navigation */}
           <nav className="flex-1 p-4 space-y-2">
             {navigationItems.map((item) => (
-              <button
-                key={item.name}
-                onClick={() => {
-                  setCurrentPage(item.name);
-                  setMobileMenuOpen(false); // Close mobile menu when item is selected
-                }}
-                className={`w-full flex items-center ${
-                  sidebarOpen
-                    ? "px-4 py-3"
-                    : "md:px-3 md:py-3 md:justify-center px-4 py-3"
-                } rounded-lg transition-all duration-200 group ${
-                  currentPage === item.name
-                    ? "bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300"
-                    : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                }`}
-              >
-                <item.icon size={20} className="flex-shrink-0" />
-                {(sidebarOpen || window.innerWidth >= 768) && (
-                  <>
-                    <span
-                      className={`ms-3 text-sm font-medium ${
-                        sidebarOpen || window.innerWidth <= 768
-                          ? "block"
-                          : "hidden"
-                      }`}
-                    >
+              <Link key={item.name} to={item.href}>
+                <button
+                  onClick={() => {
+                    setCurrentPage(item.name);
+                    setMobileMenuOpen(false); // Close mobile menu when item is selected
+                  }}
+                  className={`w-full flex items-center ${
+                    sidebarOpen
+                      ? "px-4 py-3"
+                      : "md:px-3 md:py-3 md:justify-center px-4 py-3"
+                  } rounded-lg transition-all duration-200 group ${
+                    currentPage === item.name
+                      ? "bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300"
+                      : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  }`}
+                >
+                  <item.icon size={20} className="flex-shrink-0" />
+                  {(sidebarOpen || window.innerWidth >= 768) && (
+                    <>
+                      <span
+                        className={`ms-3 text-sm font-medium ${
+                          sidebarOpen || window.innerWidth <= 768
+                            ? "block"
+                            : "hidden"
+                        }`}
+                      >
+                        {item.name}
+                      </span>
+                      {currentPage === item.name && (
+                        <ChevronRight
+                          size={16}
+                          className="ms-auto rtl:rotate-180"
+                        />
+                      )}
+                    </>
+                  )}
+                  {!sidebarOpen && window.innerWidth >= 768 && (
+                    <div className="absolute left-16 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
                       {item.name}
-                    </span>
-                    {currentPage === item.name && (
-                      <ChevronRight
-                        size={16}
-                        className="ms-auto rtl:rotate-180"
-                      />
-                    )}
-                  </>
-                )}
-                {!sidebarOpen && window.innerWidth >= 768 && (
-                  <div className="absolute left-16 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
-                    {item.name}
-                  </div>
-                )}
-              </button>
+                    </div>
+                  )}
+                </button>
+              </Link>
             ))}
           </nav>
 
@@ -243,18 +238,13 @@ const Dashboard = ({ children }) => {
 
           {/* Main Content Area */}
           <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900 p-6">
-            <div className="max-w-7xl mx-auto">
-              {/* Main Dashboard Content */}
-              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                  {currentPage} Overview
-                </h3>
-                <div className="text-center py-12">
-                  <p className="text-gray-600 dark:text-gray-400">
-                    {children}
-                    <Outlet />
-                  </p>
-                </div>
+            {/* Main Dashboard Content */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <div className="py-3">
+                <section className="text-gray-600 dark:text-gray-400">
+                  {children}
+                  <Outlet />
+                </section>
               </div>
             </div>
           </main>
