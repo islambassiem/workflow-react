@@ -4,7 +4,7 @@ import './index.css'
 import './fonts.css'
 import App from './App.jsx'
 import './i18n';
-import {SetupProvider} from "./Context/SetupProvider.jsx";
+import {SetupProvider} from "@/Context/SetupProvider.jsx";
 import {UserProvider} from "@/Context/UserContext.jsx";
 import axios from "axios";
 

@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from "react-router";
-import ProtectedRoutes from "./ProtectedRoutes";
-import Dashboard from "../Pages/Admin/Dashboard.jsx"; // adjust path
-import AdminLayout from "../Layouts/AdminLayout.jsx";
-import Workflows from "../Pages/Admin/Workflows.jsx";
+import ProtectedRoutes from "@/routes/ProtectedRoutes";
+import Dashboard from "@/Pages/Admin/Dashboard.jsx"; // adjust path
+import AdminLayout from "@/Layouts/AdminLayout.jsx";
+import Workflows from "@/Pages/Admin/Workflows.jsx";
 
 
 const AdminRoutes = () => {

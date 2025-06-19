@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router";
-import Login from "../Pages/Login.jsx"
+import Login from "@/Pages/Login.jsx"
 
 const PublicRoutes = () => {
     return (

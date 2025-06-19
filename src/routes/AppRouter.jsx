@@ -1,7 +1,7 @@
-import {useUserContext} from "../Context/UserContext.jsx"; // adjust path
-import PublicRoutes from "./PublicRoutes";
-import AdminRoutes from "./AdminRoutes";
-import UserRoutes from "./UserRoutes";
+import {useUserContext} from "@/Context/UserContext.jsx"; // adjust path
+import PublicRoutes from "@/routes/PublicRoutes";
+import AdminRoutes from "@/routes/AdminRoutes";
+import UserRoutes from "@/routes/UserRoutes";
 
 const AppRouter = () => {
     const {token, isAdmin, loading} = useUserContext();

@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router";
-import ProtectedRoutes from "./ProtectedRoutes";
-import Home from "../Pages/Home.jsx";
+import ProtectedRoutes from "@/routes/ProtectedRoutes";
+import Home from "@/Pages/Home.jsx";
 
 const UserRoutes = () => {
     return (

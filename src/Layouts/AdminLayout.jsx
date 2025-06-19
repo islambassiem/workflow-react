@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useSetupContext } from "../Context/SetupProvider.jsx";
+import { useState } from "react";
+import { useSetupContext } from "@/Context/SetupProvider.jsx";
 import {
   Menu,
   X,
@@ -17,7 +17,7 @@ import {
   SquareUserRound,
 } from "lucide-react";
 import { Outlet } from "react-router";
-import useLogout from "../hooks/useLogout.js";
+import useLogout from "@/hooks/useLogout.js";
 
 const Dashboard = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);

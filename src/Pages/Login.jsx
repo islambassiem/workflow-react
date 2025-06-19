@@ -3,7 +3,7 @@ import { BsMoonStars } from "react-icons/bs";
 import "flag-icons/css/flag-icons.min.css";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { useSetupContext } from "../Context/SetupProvider.jsx";
+import { useSetupContext } from "@/Context/SetupProvider.jsx";
 import { useState } from "react";
 import axios from "axios";
 import { useUserContext } from "@/Context/UserContext.jsx";
