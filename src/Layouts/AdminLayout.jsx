@@ -1,149 +1,267 @@
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import { useUserContext } from "@/Context/UserContext.jsx";
-import { Outlet, useNavigate } from "react-router";
-import axios from "axios";
-import { useSetupContext } from "../Context/SetupProvider";
-import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
-import { CiSun } from "react-icons/ci";
-import { BsMoonStars } from "react-icons/bs";
-import { NavLink } from "react-router";
+import React, { useState } from "react";
+import { useSetupContext } from "../Context/SetupProvider.jsx";
+import {
+  Menu,
+  X,
+  Home,
+  BarChart3,
+  Users,
+  Settings,
+  FileText,
+  Bell,
+  Globe,
+  Moon,
+  Sun,
+  LogOut,
+  ChevronRight,
+  SquareUserRound,
+} from "lucide-react";
+import { Outlet } from "react-router";
+import useLogout from "../hooks/useLogout.js";
 
-export default function AdminLayout({ children }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { setUser, token, setToken } = useUserContext();
-  const navigate = useNavigate();
-  const { theme, handleTheme, locale, handleLocale, handleDir, t } =
+const Dashboard = ({ children }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState("Dashboard");
+  const logout = useLogout();
+  const { theme, handleTheme, locale, handleLocale, handleDir } =
     useSetupContext();
 
-  const navItems = [
-    {
-      name: "Workflows",
-      route: "/workflow",
-      icon: "Icon",
-    },
-    {
-      name: "Admin",
-      route: "/admin",
-      icon: "AdminIcon",
-    },
+  const navigationItems = [
+    { name: "Dashboard", icon: Home, href: "#" },
+    { name: "Analytics", icon: BarChart3, href: "#" },
+    { name: "Users", icon: Users, href: "#" },
+    { name: "Reports", icon: FileText, href: "#" },
+    { name: "Settings", icon: Settings, href: "#" },
   ];
 
-  async function logout(e) {
-    e.preventDefault();
-
-    await axios
-      .post(
-        "/logout",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(() => {
-        setUser(null);
-        setToken(null);
-        localStorage.removeItem("token");
-        navigate("/");
-      });
-  }
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
+  const toggleDarkMode = () => handleTheme();
+  const handleLogout = () => logout();
+  const toggleLocale = () => {
+    handleLocale();
+    handleDir();
+  };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <div
-        className={`fixed inset-y-0 left-0 z-30 w-64 transform bg-white shadow-lg transition-transform duration-200 ease-in-out
-        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} 
-        md:translate-x-0 md:static md:inset-0`}
-      >
-        <div className="flex items-center justify-between p-4 border-b">
-          <h1 className="text-xl font-bold text-gray-800">My Dashboard</h1>
-          <button className="md:hidden" onClick={() => setSidebarOpen(false)}>
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-        <nav className="p-4 space-y-2">
-          {navItems.map((link) => (
-            <NavLink
-              key={link.name}
-              to={link.route}
-              className={({isActive}) =>
-                `block px-4 py-2 rounded hover:bg-gray-100 ${
-                  isActive ? "bg-green-200" : "bg-blue-500"
-                }`
-              }
+    <div className={`min-h-screen`}>
+      <div className="flex h-screen bg-gray-50 dark:bg-gray-900 relative">
+        {/* Mobile Overlay */}
+        {mobileMenuOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+            onClick={toggleMobileMenu}
+          ></div>
+        )}
+
+        {/* Sidebar */}
+        <div
+          className={`
+          ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"} 
+          md:translate-x-0 
+          ${sidebarOpen ? "md:w-64" : "md:w-16"} 
+          fixed md:relative 
+          w-64 
+          h-full 
+          z-50 
+          transition-all duration-300 ease-in-out 
+          bg-white dark:bg-gray-800 
+          shadow-lg 
+          border-r border-gray-200 dark:border-gray-700 
+          flex flex-col
+        `}
+        >
+          {/* Sidebar Header */}
+          <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+            <div
+              className={`${
+                sidebarOpen ? "block" : "hidden"
+              } transition-all duration-300`}
             >
-              {link.name}
-            </NavLink>
-          ))}
-        </nav>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex flex-col flex-1 overflow-hidden">
-        {/* Mobile top navbar */}
-        <header className="flex items-center justify-between px-4 py-3 bg-white shadow-md md:hidden">
-          <button onClick={() => setSidebarOpen(true)}>
-            <Menu className="w-6 h-6 text-gray-700" />
-          </button>
-          <h1 className="text-lg font-semibold text-gray-700">Dashboard</h1>
-        </header>
-
-        {/* Content area */}
-        <main className="flex-1 p-4 overflow-y-auto">
-          {/* 👇 Main content header */}
-          <div className="mb-6 border-b pb-3 flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-800">Page Title</h2>
-            <form>
-              <button
-                onClick={logout}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-              >
-                {t("Logout")}
-              </button>
-            </form>
-            <div className="flex items-center gap-2">
-              <Tooltip
-                arrow
-                title={theme === "light" ? t("Dark Mode") : t("Light Mode")}
-              >
-                <IconButton
-                  onClick={() => {
-                    handleTheme();
-                  }}
-                >
-                  {theme === "dark" ? (
-                    <CiSun className="text-black dark:text-white text-3xl" />
-                  ) : (
-                    <BsMoonStars className="text-black text-2xl" />
-                  )}
-                </IconButton>
-              </Tooltip>
-              <Tooltip arrow title={locale === "ar" ? "إنجليزي" : "Arabic"}>
-                <IconButton
-                  onClick={() => {
-                    handleLocale();
-                    handleDir();
-                  }}
-                >
-                  {locale === "en" ? (
-                    <span className="fi fi-sa"></span>
-                  ) : (
-                    <span className="fi fi-us"></span>
-                  )}
-                </IconButton>
-              </Tooltip>
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+                Dashboard
+              </h1>
             </div>
+            {/* Close button for mobile */}
+            <button
+              onClick={toggleMobileMenu}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors"
+            >
+              <X size={20} />
+            </button>
+            {/* Desktop toggle button */}
+            <button
+              onClick={toggleSidebar}
+              className="hidden md:block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors"
+            >
+              {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
 
-          {/* Page content passed as children */}
-          {children}
-          <Outlet/>
-        </main>
+          {/* Navigation */}
+          <nav className="flex-1 p-4 space-y-2">
+            {navigationItems.map((item) => (
+              <button
+                key={item.name}
+                onClick={() => {
+                  setCurrentPage(item.name);
+                  setMobileMenuOpen(false); // Close mobile menu when item is selected
+                }}
+                className={`w-full flex items-center ${
+                  sidebarOpen
+                    ? "px-4 py-3"
+                    : "md:px-3 md:py-3 md:justify-center px-4 py-3"
+                } rounded-lg transition-all duration-200 group ${
+                  currentPage === item.name
+                    ? "bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300"
+                    : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                }`}
+              >
+                <item.icon size={20} className="flex-shrink-0" />
+                {(sidebarOpen || window.innerWidth >= 768) && (
+                  <>
+                    <span
+                      className={`ms-3 text-sm font-medium ${
+                        sidebarOpen || window.innerWidth <= 768
+                          ? "block"
+                          : "hidden"
+                      }`}
+                    >
+                      {item.name}
+                    </span>
+                    {currentPage === item.name && (
+                      <ChevronRight
+                        size={16}
+                        className="ms-auto rtl:rotate-180"
+                      />
+                    )}
+                  </>
+                )}
+                {!sidebarOpen && window.innerWidth >= 768 && (
+                  <div className="absolute left-16 ml-2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+                    {item.name}
+                  </div>
+                )}
+              </button>
+            ))}
+          </nav>
+
+          {/* Sidebar Footer */}
+          <div className="border-t border-gray-200 dark:border-gray-700">
+            <div
+              className={`flex items-center ${
+                sidebarOpen
+                  ? "px-4 py-2"
+                  : "md:justify-center md:py-2 px-4 py-2"
+              }`}
+            >
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                <SquareUserRound />
+              </div>
+              {(sidebarOpen || window.innerWidth >= 768) && (
+                <div
+                  className={`ms-3 ${
+                    sidebarOpen || window.innerWidth <= 768 ? "block" : "hidden"
+                  }`}
+                >
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">
+                    John Doe
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Administrator
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Header */}
+          <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+            <div className="flex items-center justify-between">
+              {/* Page Title */}
+              <div className="flex items-center">
+                {/* Mobile Menu Button */}
+                <button
+                  onClick={toggleMobileMenu}
+                  className="md:hidden mr-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors"
+                >
+                  <Menu size={20} />
+                </button>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {currentPage}
+                </h2>
+                {/* <div className="ml-4 flex items-center text-sm text-gray-500 dark:text-gray-400">
+                  <span className="hidden sm:block">Welcome back, John!</span>
+                </div> */}
+              </div>
+
+              {/* Header Actions */}
+              <div className="flex items-center space-x-1">
+                {/* Notifications
+                <button className="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors">
+                  <Bell size={20} />
+                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                </button> */}
+
+                {/* Language Selector */}
+                <button
+                  onClick={toggleLocale}
+                  className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors"
+                >
+                  {/* <Globe size={18} /> */}
+                  {locale === "en" ? (
+                    <span className="fi fi-sa text-2xl"></span>
+                  ) : (
+                    <span className="fi fi-us text-2xl"></span>
+                  )}{" "}
+                  {/* <span className="text-sm font-medium">EN</span> */}
+                </button>
+
+                {/* Dark Mode Toggle */}
+                <button
+                  onClick={toggleDarkMode}
+                  className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors"
+                >
+                  {theme === "light" ? <Sun size={20} /> : <Moon size={20} />}
+                </button>
+
+                {/* Logout Button */}
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"
+                >
+                  <LogOut size={18} className="rtl:rotate-180" />
+                  {/* <span className="text-sm font-medium">Logout</span> */}
+                </button>
+              </div>
+            </div>
+          </header>
+
+          {/* Main Content Area */}
+          <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900 p-6">
+            <div className="max-w-7xl mx-auto">
+              {/* Main Dashboard Content */}
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  {currentPage} Overview
+                </h3>
+                <div className="text-center py-12">
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {children}
+                    <Outlet />
+                  </p>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default Dashboard;
