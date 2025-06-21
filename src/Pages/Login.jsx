@@ -30,14 +30,17 @@ const Login = () => {
         localStorage.setItem("token", res.data.data.token);
         const user = res.data.data.user;
         if (user) {
-          user.roles.includes('admin')
-          ? navigate("/admin") : navigate("/home")
-        }else{
+          user.roles.includes("admin") ? navigate("/admin") : navigate("/home");
+        } else {
           navigate("/login");
         }
       })
       .catch((err) => {
-        setErrors(err.response.data.errors);
+        if (err.code === "ERR_NETWORK") {
+          setErrors("Network Error");
+        } else {
+          setErrors(err.response.data.errors); 
+        }
       });
   }
 
@@ -93,7 +96,11 @@ const Login = () => {
           <div className="bg-white/80 dark:bg-black/80 backdrop-blur-md rounded-xl shadow-lg p-8 w-full max-w-md">
             <h2 className="text-2xl font-semibold text-center text-gray-800 dark:text-gray-200 mb-6">
               {t("Login to Your Account")}
-            </h2>
+              <br/>
+              {errors && (
+              <p className="text-red-500 font-medium mt-5">{t("Network Error")}</p>
+            )}
+            </h2>{" "}
             <form
               onSubmit={handleFormSubmit}
               method="POST"

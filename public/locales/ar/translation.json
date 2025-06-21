@@ -5,5 +5,13 @@
   "Email": "البريد الالكتروني",
   "Password":"كلمة السر",
   "Sign In": "تسجيل الدخول",
-  "Inaya Medical Colleges": "كليات العناية الطبية"
+  "Inaya Medical Colleges": "كليات العناية الطبية",
+  "Network Error": "خطأ في الاتصال",
+  "Submit": "إرسال",
+  "Add": "إضافة",
+  "Name": "الاسم",
+  "Description": "الوصف",
+  "Name is required": "الاسم مطلوب",
+  "Name is too long": "الاسم طويل جداً",
+  "Workflow": "العملية"
 }

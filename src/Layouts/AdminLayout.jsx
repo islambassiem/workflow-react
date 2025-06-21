@@ -25,7 +25,7 @@ const Dashboard = ({ children }) => {
 
   const navigationItems = [
     { name: "Dashboard", icon: Home, href: "/dashboard" },
-    { name: "Workflows", icon: BarChart3, href: "/workflow" },
+    { name: "Workflows", icon: BarChart3, href: "/workflows" },
     { name: "Users", icon: Users, href: "/users" },
   ];
 
