@@ -1,41 +1,73 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Plus, Edit2, Trash2, ChevronLeft, Users } from "lucide-react";
 import EmptySteps from "@/components/WorkflowSteps/EmptySteps";
 import CardTitle from "@/components/WorkflowSteps/CardTitle";
 import StepCard from "@/components/WorkflowSteps/StepCard";
 import DataModal from "@/components/WorkflowSteps/DataModal";
 import axios from "axios";
 import { useUserContext } from "@/Context/UserContext";
+import Header from "@/components/WorkflowSteps/Header";
+import Swal from "sweetalert2";
+import { useSetupContext } from "@/Context/SetupProvider";
 
 const WorkflowSteps = () => {
   const { workflow } = useParams();
   const { token } = useUserContext();
-  const [parentWorkflow, setParentWorkflow] = useState({});
+  const { theme, t } = useSetupContext();
   const [steps, setSteps] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingStep, setEditingStep] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    role_name: "",
+    role_id: "",
   });
 
-  useEffect(() => {
-    async function getSteps() {
-      const res = await axios.get(`/workflows/${workflow}/steps`, {
+  async function getSteps() {
+    await axios
+      .get(`/workflows/${workflow}/steps`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+      })
+      .then((res) => {
+        setSteps(res.data.data);
       });
-      setSteps(res.data.data);
-      setParentWorkflow(res.data.data[0].workflow);
-    }
+  }
+
+  useEffect(() => {
     getSteps();
   }, []);
 
+  async function storeStep() {
+    await axios.post(`/workflows/${workflow}/steps`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    getSteps();
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      theme: theme,
+      toast: true,
+      title: t("The step was added successfully"),
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  }
+
+  async function updateStep(step) {
+    await axios.put(`/workflows/${workflow}/steps/${step}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    getSteps();
+  }
+
   const handleCreateStep = () => {
-    setFormData({ name: "", description: "", role_name: "" });
+    setFormData({ name: "", description: "", role_id: "" });
     setEditingStep(null);
     setShowCreateModal(true);
   };
@@ -44,7 +76,7 @@ const WorkflowSteps = () => {
     setFormData({
       name: step.name,
       description: step.description,
-      role_name: step.role_name,
+      role_id: step.role.id,
     });
     setEditingStep(step);
     setShowCreateModal(true);
@@ -53,91 +85,101 @@ const WorkflowSteps = () => {
   const handleSubmit = (e) => {
     e?.preventDefault();
     if (editingStep) {
-      // Update existing step
-      setSteps(
-        steps.map((step) =>
-          step.id === editingStep.id ? { ...step, ...formData } : step
-        )
-      );
+      updateStep(editingStep.id);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        theme: theme,
+        toast: true,
+        title: t("The step was saved successfully"),
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } else {
-      // Create new step
-      const newStep = {
-        id: Math.max(...steps.map((s) => s.id)) + 1,
-        ...formData,
-        order: steps.length + 1,
-      };
-      setSteps([...steps, newStep]);
+      storeStep();
     }
     setShowCreateModal(false);
-    setFormData({ name: "", description: "", role_name: "" });
+    setFormData({ name: "", description: "", role_id: "" });
   };
 
   const handleDeleteStep = (stepId) => {
-    if (window.confirm("Are you sure you want to delete this step?")) {
-      setSteps(steps.filter((step) => step.id !== stepId));
-    }
+    Swal.fire({
+      title: t("Are you sure?"),
+      text: t("You won't be able to revert this!"),
+      icon: "warning",
+      theme: theme,
+      showCancelButton: true,
+      cancelButtonText: t("Cancel"),
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: t("Yes, delete it!"),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`/workflows/${workflow}/steps/${stepId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        getSteps();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          theme: theme,
+          toast: true,
+          title: t("The step was deleted successfully"),
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
   };
 
   return (
-    <div className="mx-auto p-6 dark:bg-gray-900 min-h-screen">
-      {/* Header */}
+    <>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+        {t("Workflows") + " / " + t("Steps")}
+      </h1>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mt-6">
+        <div className="py-3">
+          <section className="text-gray-600 dark:text-gray-400">
+            <div className="mx-auto p-6 dark:bg-gray-900 min-h-screen">
+              {/* Header */}
 
-      <div className="mb-6">
-        <div className="flex items-center mb-2">
-          <button className="flex items-center text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 mr-4">
-            <ChevronLeft className="w-4 h-4 mr-1" />
-            Back to Workflows
-          </button>
-        </div>
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              {parentWorkflow.name}
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">
-              {parentWorkflow.description}
-            </p>
-          </div>
+              <Header workflow={workflow} handleCreateStep={handleCreateStep} />
 
-          <button
-            onClick={handleCreateStep}
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Step
-          </button>
+              {steps.length === 0 ? (
+                <EmptySteps handleCreateStep={handleCreateStep} />
+              ) : (
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow border dark:border-gray-700">
+                  <CardTitle />
+                  <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                    {steps.map((step, index) => (
+                      <StepCard
+                        key={step.id}
+                        step={step}
+                        index={index}
+                        handleEditStep={handleEditStep}
+                        handleDeleteStep={handleDeleteStep}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {showCreateModal && (
+                <DataModal
+                  editingStep={editingStep}
+                  formData={formData}
+                  setFormData={setFormData}
+                  setShowCreateModal={setShowCreateModal}
+                  handleSubmit={handleSubmit}
+                />
+              )}
+            </div>
+          </section>
         </div>
       </div>
-
-      {steps.length === 0 ? (
-        <EmptySteps handleCreateStep={handleCreateStep} />
-      ) : (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border dark:border-gray-700">
-          <CardTitle />
-          <div className="divide-y divide-gray-200 dark:divide-gray-700">
-            {steps.map((step, index) => (
-              <StepCard
-                key={step.id}
-                step={step}
-                index={index}
-                handleEditStep={handleEditStep}
-                handleDeleteStep={handleDeleteStep}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {showCreateModal && (
-        <DataModal
-          editingStep={editingStep}
-          formData={formData}
-          setFormData={setFormData}
-          setShowCreateModal={setShowCreateModal}
-          handleSubmit={handleSubmit}
-        />
-      )}
-    </div>
+    </>
   );
 };
 

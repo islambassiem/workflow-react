@@ -1,7 +1,9 @@
 import React from "react";
 import { Edit2, Trash2, Users } from "lucide-react";
+import { useSetupContext } from "@/Context/SetupProvider";
 
-const StepCard = ({ step, index,handleEditStep, handleDeleteStep }) => {
+const StepCard = ({ step, index, handleEditStep, handleDeleteStep }) => {
+  const {locale, t} = useSetupContext();
   return (
     <div
       key={step.id}
@@ -25,12 +27,12 @@ const StepCard = ({ step, index,handleEditStep, handleDeleteStep }) => {
               <p className="text-gray-600 dark:text-gray-300 mb-3 leading-relaxed">
                 {step.description}
               </p>
-              <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+              <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 gap-2">
                 <Users className="w-4 h-4 mr-1" />
                 <span>
-                  Approver:{" "}
-                  <span className="font-medium text-gray-700 dark:text-gray-300">
-                    {step.role_name}
+                  {t("Approver")}:
+                  <span className="font-medium text-gray-700 dark:text-gray-300 ms-2">
+                    {locale === 'ar' ? step.role.name_ar : step.role.name}
                   </span>
                 </span>
               </div>
@@ -41,14 +43,14 @@ const StepCard = ({ step, index,handleEditStep, handleDeleteStep }) => {
               <button
                 onClick={() => handleEditStep(step)}
                 className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:text-gray-500 dark:hover:text-blue-400 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
-                title="Edit step"
+                title={t("Edit step")}
               >
                 <Edit2 className="w-4 h-4" />
               </button>
               <button
                 onClick={() => handleDeleteStep(step.id)}
                 className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:text-gray-500 dark:hover:text-red-400 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                title="Delete step"
+                title={t("Delete step")}
               >
                 <Trash2 className="w-4 h-4" />
               </button>

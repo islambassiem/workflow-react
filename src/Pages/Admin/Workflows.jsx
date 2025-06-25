@@ -11,8 +11,6 @@ import { Button } from "flowbite-react";
 import { useSetupContext } from "@/Context/SetupProvider.jsx";
 import { CiSearch } from "react-icons/ci";
 
-
-
 const Workflows = () => {
   const { token } = useUserContext();
   const { t } = useSetupContext();
@@ -22,7 +20,7 @@ const Workflows = () => {
   const [loading, setLoading] = useState(true);
   const [expandedItem, setExpandedItem] = useState(null);
   const [searchValue, setsearchValue] = useState("");
-  const debouncedSearchValue = useDebouncedValue(searchValue, 1000);
+  const debouncedSearchValue = useDebouncedValue(searchValue, 500);
 
   async function fetchWorkflows(url = `/workflows?search=${searchValue}`) {
     setLoading(true);
@@ -71,59 +69,75 @@ const Workflows = () => {
 
   return (
     <>
-      {/* Search */}
-      <div className="mb-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-        <div className="flex items-center space-x-4">
-          <div className="flex-1 relative">
-            <CiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500"/>
-            <input
-              id="search"
-              type="text"
-              placeholder="Search records..."
-              value={searchValue}
-              onChange={(e) => setsearchValue(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-red-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent "
-            />
-          </div>
-          <Link to="/workflows/create">
-            <Button color="purple" className="mt-4">
-              <LuPlus className="mr-2 rtl:ml-2" />
-              {t("Add")}
-            </Button>
-          </Link>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+        {t("Workflows")}
+      </h1>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mt-6">
+        <div className="py-3">
+          <section className="text-gray-600 dark:text-gray-400">
+            <>
+              {/* Search */}
+              <div className="mb-6 dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+                <div className="flex items-center space-x-4">
+                  <div className="flex-1 relative">
+                    <CiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
+                    <input
+                      id="search"
+                      type="text"
+                      placeholder={t("Search records...")}
+                      value={searchValue}
+                      onChange={(e) => setsearchValue(e.target.value)}
+                      // className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-red-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="bg-purple-400 dark:bg-purple-800 w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg "
+                    />
+                  </div>
+                  <div className="flex items-center">
+                    <Link to="/workflows/create">
+                      <Button color="purple">
+                        <LuPlus className="mr-2 rtl:ml-2" />
+                        {t("Add")}
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {loading ? (
+                <div className="flex justify-center items-center">
+                  <Spinner color="info" aria-label="Info spinner example" />
+                </div>
+              ) : !workflows.length ? (
+                <p className="text-center text-xl text-red-500">
+                  {t("No records found")}
+                </p>
+              ) : (
+                <>
+                  {workflows.map((workflow, index) => {
+                    return (
+                      <WorkflowCard
+                        no={index + meta.from}
+                        key={workflow.id}
+                        item={workflow}
+                        isExpanded={expandedItem === workflow.id}
+                        onToggle={() => toggleExpanded(workflow.id)}
+                        relatedRecordsCount={workflow.steps_count}
+                      />
+                    );
+                  })}
+                </>
+              )}
+
+              {meta.last_page > 1 && (
+                <Pagination
+                  links={links}
+                  meta={meta}
+                  handlePageChange={handlePageChange}
+                />
+              )}
+            </>
+          </section>
         </div>
       </div>
-
-      {loading ? (
-        <div className="flex justify-center items-center">
-          <Spinner color="info" aria-label="Info spinner example" />
-        </div>
-      ) : !workflows.length ? (
-        <p className="text-center text-xl text-red-500">No workflows found.</p>
-      ) : (
-        <>
-          {workflows.map((workflow, index) => {
-            return (
-              <WorkflowCard
-                no={index + meta.from}
-                key={workflow.id}
-                item={workflow}
-                isExpanded={expandedItem === workflow.id}
-                onToggle={() => toggleExpanded(workflow.id)}
-                relatedRecordsCount={workflow.steps_count}
-              />
-            );
-          })}
-        </>
-      )}
-
-      {meta.last_page > 1 && (
-        <Pagination
-          links={links}
-          meta={meta}
-          handlePageChange={handlePageChange}
-        />
-      )}
     </>
   );
 };

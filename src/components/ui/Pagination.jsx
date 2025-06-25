@@ -1,7 +1,9 @@
 import React from "react";
 import { ChevronRight, ChevronLast } from "lucide-react";
+import { useSetupContext } from "@/Context/SetupProvider";
 
 const Pagination = ({ links, meta, handlePageChange }) => {
+  const {t} = useSetupContext();
   const PaginationButton = ({
     onClick,
     disabled,
@@ -34,21 +36,21 @@ const Pagination = ({ links, meta, handlePageChange }) => {
           onClick={() => handlePageChange(links.first)}
           disabled={!links.prev}
         >
-          <ChevronLast className="rotate-180" />
+          <ChevronLast className="ltr:rotate-180 rtl:rotate-0" />
         </PaginationButton>
 
         <PaginationButton
           onClick={() => handlePageChange(links.prev)}
           disabled={!links.prev}
         >
-          <ChevronRight className="rotate-180" />
+          <ChevronRight className="ltr:rotate-180 rtl:rotate-0" />
         </PaginationButton>
 
         <div className="px-2 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg">
           <span className="text-sm font-medium text-gray-700">
-            Page{" "}
+            {t("Page")} {" "}
             <span className="font-bold text-blue-600">{meta.current_page}</span>{" "}
-            of <span className="font-bold text-blue-600">{meta.last_page}</span>
+            {t("of")} <span className="font-bold text-blue-600">{meta.last_page}</span>
           </span>
         </div>
 
@@ -56,14 +58,14 @@ const Pagination = ({ links, meta, handlePageChange }) => {
           onClick={() => handlePageChange(links.next)}
           disabled={!links.next}
         >
-          <ChevronRight />
+          <ChevronRight className="ltr:rotate-0 rtl:rotate-180" />
         </PaginationButton>
 
         <PaginationButton
           onClick={() => handlePageChange(links.last)}
           disabled={!links.next}
         >
-          <ChevronLast />
+          <ChevronLast  className="ltr:rotate-0 rtl:rotate-180"/>
         </PaginationButton>
 
       </div>
