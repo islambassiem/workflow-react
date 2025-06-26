@@ -10,6 +10,7 @@ import {
   Sun,
   LogOut,
   ChevronRight,
+  UserCog
 } from "lucide-react";
 import { NavLink, Outlet } from "react-router";
 import useLogout from "@/hooks/useLogout.js";
@@ -25,8 +26,9 @@ const Dashboard = () => {
 
   const navigationItems = [
     { name: "Dashboard", icon: Home, href: "/dashboard" },
-    { name: "Workflows", icon: BarChart3, href: "/workflows" },
+    { name: "Roles", icon: UserCog, href: "/roles"},
     { name: "Users", icon: Users, href: "/users" },
+    { name: "Workflows", icon: BarChart3, href: "/workflows" },
   ];
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);

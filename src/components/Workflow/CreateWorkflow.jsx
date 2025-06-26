@@ -10,16 +10,16 @@ const CreateWorkflow = () => {
   const { t } = useSetupContext();
   const { token } = useUserContext();
   const navigate = useNavigate();
-  const [errors, setErrors] = useState({name: "", description: ""});
+  const [errors, setErrors] = useState({ name: "", description: "" });
   const [formInput, setformInput] = useState({ name: "", description: "" });
 
   async function submit(e) {
     e.preventDefault();
     if (formInput.name.length === 0) {
-      setErrors({...errors, name: t("Name is required")});
+      setErrors({ ...errors, name: t("Name is required") });
       return;
     } else if (formInput.name.length > 255) {
-      setErrors({...errors, name: t("Name is too long")});
+      setErrors({ ...errors, name: t("Name is too long") });
       return;
     }
 
@@ -35,67 +35,78 @@ const CreateWorkflow = () => {
 
   return (
     <>
-      <form onSubmit={submit}>
-        <div className="mb-6">
-          <Label htmlFor="name" className="block mb-2">
-            {t("Name")}
-          </Label>
-          <TextInput
-            id="name"
-            type="text"
-            sizing="lg"
-            placeholder={t("Name")}
-            autoComplete="off"
-            value={formInput.name}
-            onChange={(e) => {
-              setErrors({...errors, name: ""});
-              setformInput({ ...formInput, name: e.target.value });
-            }}
-          />
-          <span
-            className={`text-sm ${
-              formInput.name.length > 255 ? "text-red-500" : "text-green-400"
-            }`}
-          >
-            {formInput.name.length}/255
-          </span>
-          {errors.name && <p className="text-red-500">{errors.name}</p>}
-        </div>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+        {t("Workflows") + " / " + t("Create")}
+      </h1>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mt-6">
+        <div className="py-3">
+          <section className="text-gray-600 dark:text-gray-400">
+            <form onSubmit={submit}>
+              <div className="mb-6">
+                <Label htmlFor="name" className="block mb-2">
+                  {t("Name")}
+                </Label>
+                <TextInput
+                  id="name"
+                  type="text"
+                  sizing="lg"
+                  placeholder={t("Name")}
+                  autoComplete="off"
+                  value={formInput.name}
+                  onChange={(e) => {
+                    setErrors({ ...errors, name: "" });
+                    setformInput({ ...formInput, name: e.target.value });
+                  }}
+                />
+                <span
+                  className={`text-sm ${
+                    formInput.name.length > 255
+                      ? "text-red-500"
+                      : "text-green-400"
+                  }`}
+                >
+                  {formInput.name.length}/255
+                </span>
+                {errors.name && <p className="text-red-500">{errors.name}</p>}
+              </div>
 
-        <div>
-          <Label htmlFor="description" className="block mb-2">
-            {t("Description")}
-          </Label>
-          <Textarea
-            id="description"
-            placeholder={t("Description")}
-            rows={4}
-            autoComplete="off"
-            className="placeholder:text-blue-400"
-            value={formInput.description}
-            onChange={(e) =>{
-              setErrors({...errors, description: ""});
-              setformInput({ ...formInput, description: e.target.value })
-            }}
-          />
-          <span
-            className={`text-sm ${
-              formInput.description.length > 1000
-                ? "text-red-500"
-                : "text-green-400"
-            }`}
-          >
-            {formInput.description.length}/1000
-          </span>
-        </div>
+              <div>
+                <Label htmlFor="description" className="block mb-2">
+                  {t("Description")}
+                </Label>
+                <Textarea
+                  id="description"
+                  placeholder={t("Description")}
+                  rows={4}
+                  autoComplete="off"
+                  className="placeholder:text-blue-400"
+                  value={formInput.description}
+                  onChange={(e) => {
+                    setErrors({ ...errors, description: "" });
+                    setformInput({ ...formInput, description: e.target.value });
+                  }}
+                />
+                <span
+                  className={`text-sm ${
+                    formInput.description.length > 1000
+                      ? "text-red-500"
+                      : "text-green-400"
+                  }`}
+                >
+                  {formInput.description.length}/1000
+                </span>
+              </div>
 
-        <div className="flex justify-end">
-          <Button color="purple" className="mt-4" type="submit">
-            <LuSend className="mr-2 rtl:ml-2" />
-            {t("Submit")}
-          </Button>
+              <div className="flex justify-end">
+                <Button color="purple" className="mt-4" type="submit">
+                  <LuSend className="mr-2 rtl:ml-2" />
+                  {t("Submit")}
+                </Button>
+              </div>
+            </form>
+          </section>
         </div>
-      </form>
+      </div>
     </>
   );
 };

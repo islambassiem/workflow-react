@@ -62,6 +62,16 @@
   "dependent records": "سجلات ذات صلة",
   "No related records found": "لا يوجد سجلات ذات صلة",
   "found": "تم العثور على",
-  "View Details": "عرض التفاصيل"
-
+  "View Details": "عرض التفاصيل",
+  "Create": "إنشاء",
+  "Roles": "أدوار المستخدمين",
+  "Roles Management": "إدارة أدوار المستخدمين",
+  "Manage system roles": "التحكم في كافة أدوار المستحدمين في النظام",
+  "Add Role": "إضافة دور ",
+  "more": "أكثر",
+  "English Role": "الدور بالانجليزي",
+  "Arabic Role": "الدور بالعربي",
+  "Permissions": "الصلاحيات",
+  "Created Date": "أنشئت بتاريخ",
+  "Actions": "عرض"
 }

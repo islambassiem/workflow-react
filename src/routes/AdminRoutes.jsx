@@ -5,8 +5,8 @@ import AdminLayout from "@/Layouts/AdminLayout.jsx";
 import Workflows from "@/Pages/Admin/Workflows.jsx";
 import Users from "@/Pages/Admin/Users";
 import CreateWorkflow from "@/components/Workflow/CreateWorkflow";
-// import CreateSteps from "@/components/WorkflowSteps/CreateSteps";
 import WorkflowSteps from "@/Pages/Admin/WorkflowSteps";
+import Roles from "@/Pages/Admin/Roles";
 
 const AdminRoutes = () => {
   return (
@@ -17,9 +17,9 @@ const AdminRoutes = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/workflows" element={<Workflows />} />
           <Route path="/workflows/create" element={<CreateWorkflow />} />
-          {/* <Route path="/workflows/:workflow/steps/create" element={<CreateSteps />} /> */}
           <Route path="/workflows/:workflow/steps" element={<WorkflowSteps />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/roles" element={<Roles />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
         </Route>
       </Route>
