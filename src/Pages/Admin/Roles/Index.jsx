@@ -9,8 +9,6 @@ import { useNavigate } from "react-router";
 const Index = () => {
   const { t } = useSetupContext();
   const { token } = useUserContext();
-  const [links, setLinks] = useState({});
-  const [meta, setMeta] = useState({});
   const [loading, setLoading] = useState(true);
   const [roles, setRoles] = useState([]);
   const navigate = useNavigate();
@@ -26,8 +24,6 @@ const Index = () => {
         })
         .then((res) => {
           setRoles(res.data.data);
-          setLinks(res.data.links);
-          setMeta(res.data.meta);
         });
     } catch (e) {
       console.log(e);
@@ -40,11 +36,6 @@ const Index = () => {
     fetchRoles();
   }, []);
 
-  const handlePageChange = (url) => {
-    if (url) {
-      fetchRoles(url);
-    }
-  };
 
   if (loading) {
     return (
@@ -127,13 +118,6 @@ const Index = () => {
             ))}
           </tbody>
         </table>
-        {meta.last_page > 1 && (
-          <Pagination
-            links={links}
-            meta={meta}
-            handlePageChange={handlePageChange}
-          />
-        )}
       </div>
     </div>
   );

@@ -8,16 +8,17 @@ import Pagination from "@/components/ui/Pagination";
 import { CiSearch } from "react-icons/ci";
 import useDebouncedValue from "@/hooks/useDebouncedValue";
 import RolesModel from "@/components/Users/RolesModel";
+import Swal from "sweetalert2";
 
 const Index = () => {
-  const { t, locale } = useSetupContext();
+  const { t, locale, theme } = useSetupContext();
   const [users, setUsers] = useState([]);
   const { token } = useUserContext();
   const [loading, setLoading] = useState(true);
   const [searchValue, setsearchValue] = useState("");
   const debouncedSearchValue = useDebouncedValue(searchValue, 500);
   const [showModal, setShowModel] = useState(false);
-  const [userRoles, setUserRoles] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const fetchUsers = async (url = `/users?search=${searchValue}`) => {
     setLoading(true);
@@ -58,6 +59,36 @@ const Index = () => {
     }
   };
 
+  const handelRoleUpdate = () => {
+    const updateRoles = async () => {
+      const res = await axios.put(
+        `/users/${selectedUser.id}`,
+        {
+          roles: selectedUser.roles.map((role) => role.id),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        setShowModel(false);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          theme: theme,
+          toast: true,
+          title: t("The roles was saved successfully"),
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    };
+    updateRoles();
+    fetchUsers();
+  };
 
   if (loading) {
     return (
@@ -140,7 +171,7 @@ const Index = () => {
                     <button
                       onClick={() => {
                         setShowModel(true);
-                        setUserRoles(user.roles)
+                        setSelectedUser(user);
                       }}
                       className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 p-1 rounded"
                       title="View"
@@ -165,8 +196,9 @@ const Index = () => {
       {showModal && (
         <RolesModel
           setShowModel={setShowModel}
-          userRoles={userRoles}
-          setUserRoles={setUserRoles}
+          selectedUser={selectedUser}
+          setSelectedUser={setSelectedUser}
+          handelRoleUpdate={handelRoleUpdate}
         />
       )}
     </div>
