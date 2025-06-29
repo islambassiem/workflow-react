@@ -87,9 +87,9 @@ const DataModal = ({
             <div className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               {t("Approver Role")} *
             </div>
-            <div className="flex gap-4">
+            <div className="grid grid-cols-12">
               {roles.map((role) => (
-                <div key={role.id} className="flex items-center gap-2">
+                <div key={role.id} className="flex items-center gap-2 col-span-6">
 
                   <Radio
                     id={role.id}
