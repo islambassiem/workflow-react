@@ -29,13 +29,13 @@ const DataModal = ({
   }, []);
 
   return (
-    <div 
+    <div
       onClick={() => {
         setShowCreateModal(false);
       }}
       className="fixed inset-0 bg-black/50 bg-opacity-50 dark:bg-black/60 dark:bg-opacity-70 flex items-center justify-center p-4 z-50"
     >
-      <div 
+      <div
         onClick={(e) => e.stopPropagation()}
         className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full"
       >
@@ -68,7 +68,10 @@ const DataModal = ({
           </div>
 
           <div>
-            <Label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <Label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >
               {t("Step Description")} *
             </Label>
             <textarea
@@ -89,8 +92,10 @@ const DataModal = ({
             </div>
             <div className="grid grid-cols-12">
               {roles.map((role) => (
-                <div key={role.id} className="flex items-center gap-2 col-span-6">
-
+                <div
+                  key={role.id}
+                  className="flex items-center gap-2 col-span-6"
+                >
                   <Radio
                     id={role.id}
                     name="role_id"

@@ -31,7 +31,7 @@ const Pagination = ({ links, meta, handlePageChange }) => {
 
   return (
     <>
-      <div className="flex justify-center gap-1 mt-6">
+      <div className="flex justify-center gap-1 my-6">
         <PaginationButton
           onClick={() => handlePageChange(links.first)}
           disabled={!links.prev}

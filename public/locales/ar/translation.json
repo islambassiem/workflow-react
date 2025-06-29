@@ -83,5 +83,8 @@
   "The role was added successfully": "تم إضافة الدور بنجاح",
   "The role was updated successfully": "تم تحديث الدور بنجاح",
   "The role was deleted successfully": "تم حذف الدور بنجاح",
-  "Delete": "حذف"
+  "Delete": "حذف",
+  "Users Role Management": "إدارة أدوار المستخدمين",
+  "Grant the user their relevant roles": "منح المستخدمسين الأدوار الخاصة بهم",
+  "Search users...": "ابحث عن المستخدين"
 }

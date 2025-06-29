@@ -72,8 +72,8 @@ const Workflows = () => {
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
         {t("Workflows")}
       </h1>
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mt-6">
-        <div className="py-3">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 px-6 pt-6 mt-6">
+        <div className="pb-3">
           <section className="text-gray-600 dark:text-gray-400">
             <>
               {/* Search */}
