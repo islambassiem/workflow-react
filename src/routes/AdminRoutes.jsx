@@ -1,10 +1,10 @@
 import { Routes, Route, Navigate } from "react-router";
 import ProtectedRoutes from "@/routes/ProtectedRoutes";
-import Dashboard from "@/Pages/Admin/Dashboard.jsx";
+import {Dashboard as DashboardIndex} from "@/Pages/Admin/Dashboard/Index.jsx";
 import AdminLayout from "@/Layouts/AdminLayout.jsx";
-import Workflows from "@/Pages/Admin/Workflows.jsx";
+import Workflows from "@/Pages/Admin/Workflows/Workflows.jsx";
 import CreateWorkflow from "@/components/Workflow/CreateWorkflow";
-import WorkflowSteps from "@/Pages/Admin/WorkflowSteps";
+import WorkflowSteps from "@/Pages/Admin/WorkflowSteps/WorkflowSteps";
 import Layout from "@/Pages/Admin/Roles/Layout";
 import Create from "@/Pages/Admin/Roles/Create";
 import Index from "@/Pages/Admin/Roles/Index";
@@ -18,7 +18,7 @@ const AdminRoutes = () => {
       <Route element={<ProtectedRoutes />}>
         <Route element={<AdminLayout />}>
           <Route index element={<Navigate to="/dashboard" />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<DashboardIndex />} />
           <Route path="/workflows" element={<Workflows />} />
           <Route path="/workflows/create" element={<CreateWorkflow />} />
           <Route
