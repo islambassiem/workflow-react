@@ -14,7 +14,7 @@ const Login = () => {
     useSetupContext();
   const { setToken } = useUserContext();
   const [formData, setFormData] = useState({
-    email: "admin@example.com",
+    email: "user@example.com",
     password: "password",
   });
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const Login = () => {
         localStorage.setItem("token", res.data.data.token);
         const user = res.data.data.user;
         if (user) {
-          user.roles.includes("admin") ? navigate("/admin") : navigate("/home");
+          user.roles.includes("admin") ? navigate("/admin") : navigate("/requests");
         } else {
           navigate("/login");
         }

@@ -88,5 +88,16 @@
   "Grant the user their relevant roles": "منح المستخدمسين الأدوار الخاصة بهم",
   "Search users...": "ابحث عن المستخدين",
   "The roles was saved successfully": "تم حفظ الادوار بنجاح",
-  "You can add or remove roles for this user": "يمكنك اضافة او حذف الادوار لهذا المستخدم"
+  "You can add or remove roles for this user": "يمكنك اضافة او حذف الادوار لهذا المستخدم",
+
+  
+  "Requests": "الطلبات",
+  "You can request new requests and follow up on new requests": "يمكنك طلب طلبات جديدة وتتبع الطلبات الجديدة",
+  "Requests Management": "ادارة الطلبات",
+  "Add Request": "اضافة طلب",
+  "Select a workflow": "اختر عملية",
+  "Details": "التفاصيل",
+  "Custom Data Fields": "حقول البيانات المخصصة",
+  "Add Field": "اضافة حقل",
+  "valid fields added": "حقول صالحه"
 }
