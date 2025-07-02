@@ -5,12 +5,13 @@ import { useSetupContext } from "@/Context/SetupProvider";
 import { Button, Label, Select } from "flowbite-react";
 import { IoIosSave } from "react-icons/io";
 import { Plus, Trash2 } from "lucide-react";
+import { useNavigate } from "react-router";
 
 const Create = () => {
   const effect = useRef(true);
   const [workflows, setWorkflows] = useState([]);
   const { token } = useUserContext();
-
+  const navigate = useNavigate();
   const { t } = useSetupContext();
   const [keyValuePairs, setKeyValuePairs] = useState([
     { id: 1, key: "", value: "" },
@@ -54,9 +55,19 @@ const Create = () => {
 
     const submitData = {
       workflow_id: formData.workflow_id,
-      data: dataObject,
+      data: JSON.stringify(dataObject),
     };
 
+    axios
+      .post("/requests", submitData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => navigate("/requests"))
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const addKeyValuePair = () => {
@@ -87,7 +98,7 @@ const Create = () => {
               <div>
                 <div className="max-w-md">
                   <div className="mb-2 block">
-                    <Label htmlFor="countries">{t("Select a workflow")}</Label>
+                    <Label htmlFor="workflows">{t("Select a workflow")}</Label>
                   </div>
                   <Select
                     id="workflows"
@@ -110,9 +121,9 @@ const Create = () => {
           <h2 className="mt-6 mb-3 text-2xl">{t("Details")}</h2>
           <div>
             <div className="flex items-center justify-between mb-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <p className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 {t("Custom Data Fields")}
-              </label>
+              </p>
               <button
                 type="button"
                 onClick={addKeyValuePair}
@@ -129,6 +140,7 @@ const Create = () => {
                   <div className="flex-1">
                     <input
                       type="text"
+                      id="key"
                       placeholder="Key (e.g., username, email)"
                       value={pair.key}
                       onChange={(e) =>
@@ -140,6 +152,7 @@ const Create = () => {
                   <div className="flex-1">
                     <input
                       type="text"
+                      id="value"
                       placeholder="Value"
                       value={pair.value}
                       onChange={(e) =>
