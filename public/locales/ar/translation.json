@@ -99,5 +99,12 @@
   "Details": "التفاصيل",
   "Custom Data Fields": "حقول البيانات المخصصة",
   "Add Field": "اضافة حقل",
-  "valid fields added": "حقول صالحه"
+  "valid fields added": "حقول صالحه",
+  "Action By": "اجراء بواسطة",
+  "Last Update": "اخر تحديث",
+  "Priority": "الاولوية", 
+  "Low": "منخفضة",
+  "Medium": "متوسطة",
+  "High": "مرتفعة",
+  "Urgent": "عاجلة"
 }

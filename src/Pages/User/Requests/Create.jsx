@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { useUserContext } from "@/Context/UserContext";
 import { useSetupContext } from "@/Context/SetupProvider";
-import { Button, Label, Select } from "flowbite-react";
+import { Button, Label, Select, Radio } from "flowbite-react";
 import { IoIosSave } from "react-icons/io";
 import { Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router";
@@ -18,6 +18,7 @@ const Create = () => {
   ]);
   const [formData, setFormData] = useState({
     workflow_id: "",
+    priority: "1",
   });
 
   const fetchWorkflows = () => {
@@ -55,6 +56,7 @@ const Create = () => {
 
     const submitData = {
       workflow_id: formData.workflow_id,
+      priority: formData.priority,
       data: JSON.stringify(dataObject),
     };
 
@@ -89,32 +91,60 @@ const Create = () => {
     );
   };
 
+  const priorities = [
+    { id: "priority-1", label: t("Low") },
+    { id: "priority-2", label: t("Medium") },
+    { id: "priority-3", label: t("High") },
+    { id: "priority-4", label: t("Urgent") },
+  ];
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
       <div className="flex justify-between items-center">
         <form className="w-full" onSubmit={handleSubmit}>
-          <div className="grid sm:grid-cols-2 md:grid-cols-12 gap-4 w-full">
-            <div className="md:col-span-6 sm:col-span-1">
-              <div>
-                <div className="max-w-md">
-                  <div className="mb-2 block">
-                    <Label htmlFor="workflows">{t("Select a workflow")}</Label>
-                  </div>
-                  <Select
-                    id="workflows"
-                    required
-                    onChange={(e) =>
-                      setFormData({ ...formData, workflow_id: e.target.value })
-                    }
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="md:col-span-1">
+              <div className="mb-2 block">
+                <Label htmlFor="workflows">{t("Select a workflow")}</Label>
+              </div>
+              <Select
+                id="workflows"
+                required
+                value={formData.workflow_id}
+                onChange={(e) =>
+                  setFormData({ ...formData, workflow_id: e.target.value })
+                }
+              >
+                <option disabled value={""}>
+                  {t("Select a workflow")}
+                </option>
+                {workflows.map((workflow) => (
+                  <option key={workflow.id} value={workflow.id}>
+                    {workflow.name}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <div className="md:col-span-1">
+              <div className="mb-5 block">{t("Priority")}</div>
+              <div className="flex flex-wrap gap-4">
+                {priorities.map((priority) => (
+                  <div
+                    key={priority.id}
+                    className="flex flex-1 items-center gap-2"
                   >
-                    <option disabled>{t("Select a workflow")}</option>
-                    {workflows.map((workflow) => (
-                      <option key={workflow.id} value={workflow.id}>
-                        {workflow.name}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
+                    <Radio
+                      id={priority.id}
+                      name="priorities"
+                      value={priority.id.split("-")[1]}
+                      checked={formData.priority === priority.id.split("-")[1]}
+                      onChange={(e) =>
+                        setFormData({ ...formData, priority: e.target.value })
+                      }
+                    />
+                    <Label htmlFor={priority.id}>{priority.label}</Label>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

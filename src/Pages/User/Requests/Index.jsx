@@ -56,8 +56,6 @@ const Index = () => {
     setExpandedItem(expandedItem === id ? null : id);
   };
 
-  console.log(requests.meta);
-  console.log(requests.links);
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 px-6 pt-6 mt-6">
       <div className="pb-3">

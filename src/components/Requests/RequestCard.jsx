@@ -1,6 +1,13 @@
 import { Link } from "react-router";
 import { useSetupContext } from "@/Context/SetupProvider";
-import { Hash, AlertCircle, Clock, CheckCircle, Flag } from "lucide-react";
+import {
+  Hash,
+  AlertCircle,
+  Clock,
+  CheckCircle,
+  Flag,
+  XCircle,
+} from "lucide-react";
 
 const WorkflowCard = ({
   no,
@@ -9,54 +16,55 @@ const WorkflowCard = ({
   onToggle,
   relatedRecordsCount = 0,
 }) => {
-  const { t } = useSetupContext();
-
-  const getPriorityConfig = (priority) => {
-    switch (priority) {
-      case 1:
-        return {
-          color: "bg-red-100 text-red-800 border-red-200",
-          label: "High",
-          icon: AlertCircle,
-        };
-      case 2:
-        return {
-          color: "bg-yellow-100 text-yellow-800 border-yellow-200",
-          label: "Medium",
-          icon: Clock,
-        };
-      case 3:
-        return {
-          color: "bg-green-100 text-green-800 border-green-200",
-          label: "Low",
-          icon: CheckCircle,
-        };
-      default:
-        return {
-          color: "bg-gray-100 text-gray-800 border-gray-200",
-          label: "Unknown",
-          icon: Flag,
-        };
-    }
-  };
-
-  const getStatusConfig = (status) => {
+  const { t, locale } = useSetupContext();
+  
+  const getStatusIcon = (status) => {
     switch (status) {
-      case 0:
-        return { color: "bg-gray-100 text-gray-800", label: "Pending" };
-      case 1:
-        return { color: "bg-blue-100 text-blue-800", label: "In Progress" };
-      case 2:
-        return { color: "bg-green-100 text-green-800", label: "Completed" };
+      case "1":
+      case "2":
+        return <Clock className="w-5 h-5 text-yellow-500" />;
+      case "3":
+      case "4":
+        return <CheckCircle className="w-5 h-5 text-green-500" />;
+      case "5":
+        return <XCircle className="w-5 h-5 text-red-500" />;
       default:
-        return { color: "bg-gray-100 text-gray-800", label: "Unknown" };
+        return <AlertCircle className="w-5 h-5 text-gray-400" />;
     }
   };
 
-  const priorityConfig = getPriorityConfig(item.priority);
-  const statusConfig = getStatusConfig(item.status);
-  const PriorityIcon = priorityConfig.icon;
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "1":
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400";
+      case "2":
+        return "bg-yellow-400 text-yellow-100 dark:bg-yellow-400/30 dark:text-yellow-100";
+      case "3":
+      case "4":
+        return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
+      case "5":
+        return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400";
+    }
+  };
 
+  const getPriorityColor = (priority) => {
+    switch (priority) {
+      case "4":
+        return "bg-red-500 text-gray-100 dark:bg-red-900/80 dark:text-gray-300";
+      case "3":
+        return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
+      case "2":
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400";
+      case "1":
+        return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400";
+    }
+  };
+
+  console.log(item);
   return (
     <div className="mt-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md dark:hover:shadow-lg transition-all duration-300 overflow-hidden">
       {/* Card Header */}
@@ -83,15 +91,17 @@ const WorkflowCard = ({
                 <div className="flex items-center justify-between">
                   <div className="flex space-x-2">
                     <span
-                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${priorityConfig.color}`}
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getPriorityColor(item.priority.id)}`}
                     >
-                      <PriorityIcon className="h-3 w-3 mr-1" />
-                      {priorityConfig.label}
+                      {locale === "en" ? item.priority.en : item.priority.en}
                     </span>
                     <span
-                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusConfig.color}`}
+                      className={`inline-flex gap-1 items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
+                        item.status.id
+                      )}`}
                     >
-                      {statusConfig.label}
+                      {locale === "en" ? item.status.en : item.status.ar}
+                      {getStatusIcon(item.status.id)}
                     </span>
                   </div>
                 </div>
