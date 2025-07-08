@@ -9,15 +9,9 @@ import {
   XCircle,
 } from "lucide-react";
 
-const WorkflowCard = ({
-  no,
-  item,
-  isExpanded,
-  onToggle,
-  relatedRecordsCount = 0,
-}) => {
+const Request = ({ no, item, isExpanded, onToggle }) => {
   const { t, locale } = useSetupContext();
-  
+
   const getStatusIcon = (status) => {
     switch (status) {
       case "1":
@@ -64,7 +58,6 @@ const WorkflowCard = ({
     }
   };
 
-
   return (
     <div className="mt-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md dark:hover:shadow-lg transition-all duration-300 overflow-hidden">
       {/* Card Header */}
@@ -80,8 +73,9 @@ const WorkflowCard = ({
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">
-                  {item.workflow.name}
+                  {item.user.name} {item.id}
                 </h3>
+                <p>{item.workflow.name}</p>
               </div>
             </div>
           </div>
@@ -91,14 +85,16 @@ const WorkflowCard = ({
                 <div className="flex items-center justify-between">
                   <div className="flex space-x-2">
                     <span
-                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getPriorityColor(item.priority.id)}`}
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getPriorityColor(
+                        item.priority.id
+                      )}`}
                     >
-                      {locale === "en" ? item.priority.en : item.priority.en}
+                      {locale === "en" ? item.priority.en : item.priority.ar}
                     </span>
                     <span
-                      className={`inline-flex gap-1 items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
-                        item.status.id
-                      )}`}
+                      className={`inline-flex gap-1 items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                         ${getStatusColor(item.status.id)} 
+                    `}
                     >
                       {locale === "en" ? item.status.en : item.status.ar}
                       {getStatusIcon(item.status.id)}
@@ -136,18 +132,18 @@ const WorkflowCard = ({
           isExpanded ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="px-6 pb-6 border-t border-gray-100 dark:border-gray-700">
-          <div className="pt-4 space-y-4">
+        <div className="px-6 pb-6 border-t border-gray-100 dark:border-gray-700  ">
+          <div className="pt-4 space-y-4 ">
             {/* Full Description */}
-            {item?.description && (
-              <div>
+            {item?.workflow.description && (
+              <>
                 <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
                   {t("Full Description")}
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
-                  {item?.description}
+                  {item?.workflow.description}
                 </p>
-              </div>
+              </>
             )}
 
             {/* Related Records Section */}
@@ -173,19 +169,19 @@ const WorkflowCard = ({
                     <p className="text-sm font-medium text-indigo-700 dark:text-indigo-300">
                       {t("Related Records")}
                     </p>
-                    <p className="text-xs text-indigo-500 dark:text-indigo-400">
+                    {/* <p className="text-xs text-indigo-500 dark:text-indigo-400">
                       {relatedRecordsCount} {t("dependent records")}
                       {relatedRecordsCount !== 1 ? "s" : ""} {t("found")}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
-                <Link to={`/requests/${item.id}/steps`}>
+                <Link to={`requests/${item.id}/steps`}>
                   <button className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white text-sm font-medium rounded-lg transition-colors duration-200 flex items-center space-x-2 shadow-sm">
                     <span>{t("View Details")}</span>
                     <svg
                       className="w-4 h-4"
                       fill="none"
-                      stroke="currentColor"
+                      stroke="currentColor" 
                       viewBox="0 0 24 24"
                     >
                       <path
@@ -206,4 +202,4 @@ const WorkflowCard = ({
   );
 };
 
-export default WorkflowCard;
+export default Request;

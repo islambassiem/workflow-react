@@ -12,11 +12,13 @@ import {
 } from "lucide-react";
 import { NavLink, Outlet } from "react-router";
 import useLogout from "@/hooks/useLogout.js";
+import { useUserContext } from "@/Context/UserContext";
 
 const UserLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState("");
+  const { user } = useUserContext();
   const logout = useLogout();
   const { theme, handleTheme, locale, handleLocale, handleDir, t } =
     useSetupContext();
@@ -24,6 +26,10 @@ const UserLayout = () => {
   const navigationItems = [
     { name: "Requests", icon: MessageCircleQuestion , href: "/requests"},
   ];
+
+  if(user.data.roles.length > 0){
+    navigationItems.push({ name: "Approvals", icon: UserCog, href: "/approvals"});
+  }
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
