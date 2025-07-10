@@ -48,13 +48,13 @@ const Index = () => {
                 <div className="flex justify-center items-center">
                   <Spinner color="info" aria-label="Info spinner example" />
                 </div>
-              ) : requests.length === 0 ? (
+              ) : requests?.data?.length === 0 ? (
                 <p className="text-center text-xl text-red-500">
                   {t("No records found")}
                 </p>
               ) : (
                 <>
-                  {requests.data.map((request, index) => {
+                  {requests?.data?.map((request, index) => {
                     return (
                       <RequestCard
                         key={request.id}

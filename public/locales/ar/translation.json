@@ -110,5 +110,13 @@
   "Requests Approvals": "الموافقة على الطلبات",
   "The Requests of the employees can be approved here": "يمكن الموافقة على الطلبات من هنا",
   "Approvals": "الموافقات",
-  "Data Preview": "عرض البيانات"
+  "Data Preview": "عرض البيانات",
+  "Action": "إجراء",
+  "Take an Action": "إتخذ إجراء",
+  "In process": "تحت الاجراء",
+  "Completed": "مكتملة",
+  "Approve": "الموافقة",
+  "Reject": "رفض",
+  "Select an approriate action": "اختر الاجراء المناسب",
+  "Leave a comment...": "اترك تعليق ..."
 }
