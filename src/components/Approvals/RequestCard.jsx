@@ -73,9 +73,9 @@ const Request = ({ no, item, isExpanded, onToggle }) => {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">
-                  {item.user.name} {item.id}
+                  {item?.user?.name} {item.id}
                 </h3>
-                <p>{item.workflow.name}</p>
+                <p>{item?.workflow?.name}</p>
               </div>
             </div>
           </div>
@@ -135,13 +135,13 @@ const Request = ({ no, item, isExpanded, onToggle }) => {
         <div className="px-6 pb-6 border-t border-gray-100 dark:border-gray-700  ">
           <div className="pt-4 space-y-4 ">
             {/* Full Description */}
-            {item?.workflow.description && (
+            {item?.workflow?.description && (
               <>
                 <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
                   {t("Full Description")}
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
-                  {item?.workflow.description}
+                  {item?.workflow?.description}
                 </p>
               </>
             )}
